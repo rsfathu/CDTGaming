@@ -145,7 +145,7 @@ class Playingboard :
                 self.canvas.create_line([(0, i), (w, i)], tag='grid_line',fill='white')
         self.canvas.bind('<Configure>', create_grid)
         #player demarcation below
-
+        self.canvas.create_rectangle(0,600,30,570,fill="red")
         #label declarations
         self.labeltitle = Label(self.master , text= " THE SHOWDOWN BOARD " , font=("Corbel" , 36), foreground="#110b11" , padx = 10 ,pady = 10 )
         self.player1label = Label(self.master , text="Player 1 ",font=("Corbel" ,24),background="#52d1dc")
