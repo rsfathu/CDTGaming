@@ -43,11 +43,11 @@ class Endgameframe():
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         master.title("Thanks for playing!")
 
-        self.label = Label(master, text="Rate us on Playstore 5/5, Hope you enjoyed the game​" , font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.label = Label(self.master, text="Rate us on Playstore 5/5, Hope you enjoyed the game​" , font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.label.place(x=250 , y = 200)
 
-        self.greet_button = Button(master, text="Restart?", command=None , height= 4 , width= 40 , padx= 10 , pady = 10 , font=("roboto" , 24) , background="#f991cc" , foreground="#110b11")
-        self.greet_button.place(x=400 , y=320)
+        self.restart_button = Button(self.master, text="Restart?", command=None , height= 4 , width= 40 , padx= 10 , pady = 10 , font=("roboto" , 24) , background="#f991cc" , foreground="#110b11")
+        self.restart_button.place(x=400 , y=320)
 
         self.close_button = Button(master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.close_button.place(x=1000,y=700)
@@ -64,12 +64,12 @@ class QuestionframeMCQ :
         self.questionlabel,self.mcq1,self.mcq2,self.mcq3,self.mcq4 = questionlabel,mcq1,mcq2,mcq3,mcq4
 
         #Declaration of all necessary labels
-        self.qlabel = Label(master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.mcqbutton1 = Button(master, text=self.mcq1, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton2 = Button(master, text=self.mcq2, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton3 = Button(master, text=self.mcq3, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton4 = Button(master, text=self.mcq4, command= None , height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.nextbutton = Button(master, text="Continue", command=self.nextpg("test") , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.mcqbutton1 = Button(self.master, text=self.mcq1, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton2 = Button(self.master, text=self.mcq2, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton3 = Button(self.master, text=self.mcq3, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton4 = Button(self.master, text=self.mcq4, command= None , height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.nextbutton = Button(self.master, text="Continue", command=self.nextpg("test") , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
 
         #placements
         self.qlabel.place(x=200 , y=100)
@@ -89,9 +89,9 @@ class QuestionframeOPEN:
         self.questionlabel= questionlabel
 
         #Declaration of all necessary labels
-        self.qlabel = Label(master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.nextbutton = Button(master, text="Continue", command=self.nextpg() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
-        self.answerbox = Entry(master,textvariable= " HELP " , foreground="#110b11" ,font= ("roboto" , 16) , width=100 ,   )
+        self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.nextbutton = Button(self.master, text="Continue", command=self.nextpg() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.answerbox = Entry(self.master,textvariable= " HELP " , foreground="#110b11" ,font= ("roboto" , 16) , width=100 ,   )
         #placements
         self.qlabel.place(x=200 , y=100)
         self.nextbutton.place(x=1000,y=650)
@@ -110,21 +110,47 @@ class Answerframe :
         else:
             self.displaytext = "Amazing you managed to find a loophole."
         #declaration
-        self.answerlabel = Label(master,text= "ANSWER HERE",font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.nextbutton = Button(master, text="Continue", command=self.nextpg() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
-        self.congratulations = Label(master,text= self.displaytext,font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-
-
+        self.answerlabel = Label(self.master,text= "ANSWER HERE",font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.nextbutton = Button(self.master, text="Continue", command=self.nextpg() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.congratulations = Label(self.master,text= self.displaytext,font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        if self.boolean == True:
+            self.useriscorrect = True
+        else:
+            self.useriscorrect = False
         #placements
         self.answerlabel.place(x=200,y=100)
         self.congratulations.place(x=200,y=300)
         self.nextbutton.place(x=1000,y=650)
-
+    
     def nextpg(self):
-        pass
+        #this will key in variables to the next page.
+        return Playingboard()
+class Explanationframe :
+    def __init__(self,master) -> None:
+        self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
+        self.explanation= """
+        You roll a dice. Then you move that many steps​
+        \n
+        If you land upon a square with a question, you must answer it, else you will regress 1 step.​
+        \n
+        If you land at the bottom of the ladder, you must answer the question to proceed upwards, 
+        \n
+        if you land on the mouth of a snake, you must answer the question correctly to not proceed downwards.​
+        \n
+        The questions get increasingly tougher.​
+        \n
+        First to reach square 100 wins.
+        \n
+        """
+        self.explanationheader = Label(self.master, text= "Rules As Below...", font= ("Corbel" , 32) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.explanationtext = Label(self.master,text= self.explanation,font= ("Roboto",12) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.continuebutton = Button(self.master, text="Continue", command=None, font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.continuebutton.place(x=1000,y=650)
+        self.explanationtext.place(x=100,y=200)
+        self.explanationheader.place(x=100,y=50,anchor="w")
 
 class Playingboard :
-    def __init__(self,master,player1position,player2position,popuptype,playernumber) :
+    def __init__(self,master,player1position,player2position,popuptype,playernumber,playerscore1,playerscore2) :
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         self.playernumber = playernumber#This is the player turn indicator
         self.player1position,self.player2position = player1position,player2position
@@ -215,7 +241,8 @@ class GUILOOP() :
         self.master = Tk()
         self.master.geometry("1280x720")
         self.master.configure(background="#52d1dc")
-        self.nextframe = Playingboard(self.master,10,1,'ladder',1)
+        #self.nextframe = Playingboard(self.master,10,1,'ladder',1,None,None)
+        self.nextframe = Explanationframe(self.master)
         self.start  = Introframe(self.master,self.nextframe)
         self.master.mainloop()
 a = GUILOOP()
