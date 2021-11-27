@@ -19,7 +19,7 @@ fee1c7- Beige
 class p1_turn():
     def __init__(self,index):
         self.index = index
-    def bot_left(self):
+    def bot_left(self): #This is the method to find the coordinates of bottom left of player's icon
         j = self.index % 20
         if j > 0 and j < 11:
             x = 60 * (j-1)
@@ -51,7 +51,7 @@ class p1_turn():
 class p2_turn():
     def __init__(self, index):
         self.index = index
-    def bot_left(self):
+    def bot_left(self):  #This is the method to find the coordinates of bottom left of player's icon
         j = self.index % 20
         if j > 0 and j < 11:
             x = 60 * (j-1)
