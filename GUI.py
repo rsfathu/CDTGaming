@@ -15,6 +15,88 @@ fee1c7- Beige
 110b11- midnight blue
  """
 
+"""
+class p1_turn():
+    def __init__(self,index):
+        self.index = index
+    def bot_left(self):
+        j = self.index % 20
+        if j > 0 and j < 11:
+            x = 60 * (j-1)
+        else:
+            x = 540 - 60 * (j - 11)
+        m = x + 30
+        k = int(self.index / 10)
+        y = 600 - 60 * k
+        n = y - 30
+        return x, y, m, n
+    def check_index(self):
+        if self.index in [1,4,7,9,10,32,45,78]:
+            print("snake")
+        elif self.index in [3,12,15,35,49]:
+            print("ladder")
+        else:
+            pass
+    def roll_dice(self):
+        start = input("P1's turn go: ")
+        if start != "0":
+            pass
+        else:
+            print("DIE")
+        die_num = int(random.randint(1, 6))
+        self.index = self.index + die_num
+        print(self.index)
+        return
+
+class p2_turn():
+    def __init__(self, index):
+        self.index = index
+    def bot_left(self):
+        j = self.index % 20
+        if j > 0 and j < 11:
+            x = 60 * (j-1)
+        else:
+            x = 540 - 60 * (j - 11)
+        m = x + 30
+        k = int(self.index / 20)
+        y = 600 - 120 * k
+        n = y - 30
+        return x, y, m, n
+    def check_index(self):
+        if self.index in [4, 7, 9, 10, 32, 45, 78]:
+            print("snake")
+        elif self.index in [3, 12, 15, 35, 49]:
+            print("ladder")
+        else:
+            pass
+    def roll_dice(self):
+        start = input("P2's turn go: ")
+        if start != "0":
+            pass
+        else:
+            print("DIE")
+        die_num = int(random.randint(1, 6))
+        self.index = self.index + die_num
+        print(self.index)
+        return
+
+hi = True
+end = 0
+p1 = p1_turn(1)
+p2 = p2_turn(1)
+while end == 0:
+    if hi == True:
+        p1.roll_dice()
+        print("p1 turn done")
+        print(p1.bot_left())
+        hi = False
+    else:
+        p2.roll_dice()
+        print("p2 turn done")
+        print(p2.bot_left())
+        hi = True
+"""
+
 class Introframe:
     def __init__(self, master,nextframe):
 
