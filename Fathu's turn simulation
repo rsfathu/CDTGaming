@@ -13,13 +13,6 @@ class p1_turn():
         y = 600 - 60 * k
         n = y - 30
         return x, y, m, n
-    def check_index(self):
-        if self.index in [1,4,7,9,10,32,45,78]:
-            print("snake")
-        elif self.index in [3,12,15,35,49]:
-            print("ladder")
-        else:
-            pass
     def roll_dice(self):
         start = input("P1's turn go: ")
         if start != "0":
@@ -44,14 +37,7 @@ class p2_turn():
         k = int(self.index / 20)
         y = 600 - 120 * k
         n = y - 30
-        return x, y, m, n
-    def check_index(self):
-        if self.index in [4, 7, 9, 10, 32, 45, 78]:
-            print("snake")
-        elif self.index in [3, 12, 15, 35, 49]:
-            print("ladder")
-        else:
-            pass
+        return x, y, m, n:
     def roll_dice(self):
         start = input("P2's turn go: ")
         if start != "0":
