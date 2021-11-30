@@ -10,7 +10,7 @@ class logic :
         self.currentpts = currentpts 
         self.dict = dictionary 
         self.key = key
-        self.set = data_set
+        self.qnlist = data_set
            
 
 
@@ -46,7 +46,7 @@ class logic :
 
     ### Returning set from key
     def returnkeyset(self):
-        self.set = self.dict[self.key]
+        self.qnlist = self.dict[self.key]
         return self.set
 
     ### Extracting Questions
@@ -56,11 +56,11 @@ class logic :
 
     ### Extracting MCQ options
     def extractmcq(self):
-        qn = "{}".format(self.set[0][0])
-        op1 = "{}".format(self.set[1][0])
-        op2 = "{}".format(self.set[1][1])
-        op3 = "{}".format(self.set[1][2])
-        op4 = "{}".format(self.set[1][3])
+        qn = "{}".format(self.qnlist[0][0])
+        op1 = "{}".format(self.qnlist[1][0])
+        op2 = "{}".format(self.qnlist[1][1])
+        op3 = "{}".format(self.qnlist[1][2])
+        op4 = "{}".format(self.qnlist[1][3])
         return qn, op1, op2, op3, op4
 
 a = logic()
