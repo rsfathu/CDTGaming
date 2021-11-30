@@ -142,6 +142,7 @@ while end == 0:
             ladder()
         elif p2.index in surprise_dc:
             surprise()
-        print(p2.bot_left())
-        print("p2 turn done")
+        else:
+            print(p2.bot_left())
+            print("p2 turn done")
         hi = True
