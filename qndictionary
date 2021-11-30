@@ -1,1 +1,8 @@
 
+qndict = {
+'E1' : ['What is the fastest animal in the world?'], ['Tiger', 'Cheetah', 'Puma', 'Peregrine Falcon'], ['Peregrine Falcon'],
+'E2' : ['What is the year the First World War ended?'], [], ['1918'],
+'E3' : ['What is the smallest planet in our solar system?'], ['Pluto', 'Jupiter', 'Mercury', 'Saturn'], ['Pluto'],
+}
+
+print(qndict['E1'])
