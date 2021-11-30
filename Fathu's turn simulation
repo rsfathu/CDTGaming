@@ -133,7 +133,7 @@ while end == 0:
         else:
             print(p1.bot_left())
             print("p1 turn done")
-            hi = False
+        hi = False
     else:
         p2.roll_dice()
         if p2.index in snake_dc:
