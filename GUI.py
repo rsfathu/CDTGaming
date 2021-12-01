@@ -46,7 +46,7 @@ class Round:
         else:
             return False 
 
-class GUILOOP():
+"""class GUILOOP():
     def __init__(self) :
         self.roundstart = Round() #roundstart is the object for holding all information
         self.rootmaster = Tk()
@@ -55,9 +55,16 @@ class GUILOOP():
         #self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
         self.nextframe = Answerframe(self.rootmaster)
         self.start  = Introframe(self.rootmaster,self.nextframe)
-        self.rootmaster.mainloop()
-
-class SNLFrame(GUILOOP):
+        self.rootmaster.mainloop()"""
+# roundstart = Round() #roundstart is the object for holding all information
+# rootmaster = Tk()
+# rootmaster.geometry("1280x720")
+# rootmaster.configure(background="#52d1dc")
+# #self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
+# nextframe = Answerframe(self.rootmaster)
+# start  = Introframe(self.rootmaster,self.nextframe)
+# rootmaster.mainloop()
+class SNLFrame():
     def __init__(self, master):
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
 
@@ -159,7 +166,7 @@ class Answerframe(SNLFrame) :
             self.displaytext = "Amazing you managed to find a loophole."
         #declaration
         self.answerlabel = Label(self.master,text= "ANSWER HERE",font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.nextbutton = Button(self.master, text="Continue", command=self.changeframe(Playingboard(master)), font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.nextbutton = Button(self.master, text="Continue", command=None, font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.congratulations = Label(self.master,text= self.displaytext,font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         if self.boolean == True:
             self.useriscorrect = True
@@ -179,7 +186,7 @@ class Answerframe(SNLFrame) :
             return None ### fullproof code in case input is neither True/False
         return (self.player, self.currentpts) ### use tuple to reduce hacking risks as values is not mutable
     
-class Explanationframe(GUILOOP) :
+class Explanationframe() :
     def __init__(self,master) -> None:
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         super().__init__(master)
@@ -205,10 +212,12 @@ class Explanationframe(GUILOOP) :
         self.explanationheader.place(x=100,y=50,anchor="w")
 
 class Playingboard(SNLFrame) :
-    def __init__(self,master,player1position,player2position,playerturn,playerscore1,playerscore2) :
+    def __init__(self,master,attributes) :
+        self.attributes = attributes
+        self.attributes.player1position = 1
         super().__init__(master)
-        self.playernumber = playerturn#This is the player turn indicator
-        self.player1position,self.player2position = player1position,player2position
+        self.playernumber = self.attributes.userboolean#This is the player turn indicator
+        self.player1position,self.player2position = self.attributes.player1index,self.attributes.player2index
         self.variable = 0        
 
         #canvas grid system
@@ -273,6 +282,7 @@ class Playingboard(SNLFrame) :
         self.player1counter.place(x=1000,y=150)
         self.player2counter.place(x=1000,y=350)
         self.rolldicebutton.place(x=100,y=600)
+        roundstart.player1score
 
 
     def rollinganimation(self,playernumber):
@@ -295,9 +305,28 @@ class Playingboard(SNLFrame) :
 #code below to be inserted at gui initialization
 #pages = {1:Introframe(master) , 2:QuestionframeOPEN(master) , 3: QuestionframeMCQ(master) , 4:Answerframe(master) , 5: Endgameframe(master)}
 
+roundstart = Round() #roundstart is the object for holding all information
+rootmaster = Tk()
+rootmaster.geometry("1280x720")
+rootmaster.configure(background="#52d1dc")
+#self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
+#nextframe = Playingboard(rootmaster,roundstart)
+#start  = Introframe(rootmaster,nextframe)
+nextframe = Playingboard(rootmaster,roundstart)
 
-
-
-a = GUILOOP()
-
-
+print(roundstart.player1position)
+b = True
+count = 0
+# while b:
+#     nextframe = Playingboard(rootmaster,roundstart)
+#     #roundstart = Round()
+#     if count == 0:
+#         #
+#         count += 1
+#     elif count == 1:
+#         pass
+#     elif count == 2:
+#         count = 0
+#         b = roundstart.endgameboolean
+#print(roundstart.a)
+rootmaster.mainloop()
