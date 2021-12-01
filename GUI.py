@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import font
+from tkinter import messagebox
 from tkinter.font import names
 import time
 import random
@@ -14,56 +15,115 @@ fee1c7- Beige
 52d1dc- cyan 
 110b11- midnight blue
  """
+class Questiondatabase:
+    def __init__(self) -> None:
+        self.data_set = {
+        'E1' : [['What is the fastest animal in the world?'], ['Tiger', 'Cheetah', 'Puma', 'Peregrine Falcon'], ['Peregrine Falcon']],
+        'E2' : [['What is the year the First World War ended?'], [], ['1918']],
+        'E3' : [['What is the smallest planet in our solar system?'], ['Pluto', 'Jupiter', 'Mercury', 'Saturn'], ['Pluto']],
+        'E4' : [['When did the SARS outbreak occur?'], [], ['2002']],
+        'E5' : [['How many continents are there in the World?'], ['6', '7', '8', '9'], ['7']],
+        'E6' : [['How many states are there in the United States?'], ['50', '', '', ''], ['']],
+        'E7' : [['Where are the Himalayans located?'], ['India', 'Nepal', 'China', 'Russia'], ['India']],
+        'E8' : [['How many playing cards are there in a regular deck?'], [], ['52']],
+        'M1' : [['Which animal has no bones?'], ['Shark', 'Whale', 'Dolphin', 'Frog'], ['Shark']],
+        'M2' : [['The name "Singapore" is derived from Sanskrit. What is the meaning?'], [], ['Lion City']],
+        'M3' : [['Who has the strongest passport?'], ['Japan', 'Singapore', 'South Korea', 'Australia'], ['Japan']],
+        'M4' : [['What is the name of Singapores International Airport?'], [], ['Changi Airport']],
+        'M5' : [['How many terminals does Singapores Airport have?'], [], ['5']],
+        'M6' : [['What is the fastest growing social media platform as of today?'], ['Instagram', 'Twitter', 'TikTok', 'Snapchat'], ['TikTok']],
+        'M7' : [['What is the name of the area between your eyebrows?'], ['Glabella', 'Weenis', 'Poplitealm Fossa', 'Hallux'], ['Glabella']],
+        'M8' : [['How many teeth does an adult human have?'], [], ['32']],
+        'M9' : [['What is the most spoken language in the world?'], ['Mandarin', 'Spanish', 'English', 'German'], ['Mandarin']],
+        'M10' : [['In what stage of life, do humans have the most bones?'], ['Baby', 'Child', 'Adult', 'Elderly'], ['Baby']],
+        'M11' : [['What is the end of your shoelace called?'], ['Phalanx', 'Tip', 'End', 'Aglet'], ['Aglet']],
+        'M12' : [['Who bombed Pearl Harbour?'], ['The Japanese', 'The US', 'The Russians', 'The Germans'], ['The Japanese']],
+        'M13' : [['What is the most practiced religion in the World?'], ['Islam', 'Judaism', 'Christianity', 'Buddhism'], ['Christianity']],
+        'M14' : [['Which of the following is the largest and the deepest ocean of the world?'], ['Arctic', 'Atlantic', 'Pacific', 'Indian'], ['Pacific']],
+        'M15' : [['Which country has a negative carbon index?'], ['Sweden', 'Bhutan', 'Rwanda', 'Singapore'], ['Bhutan']],
+        'M16' : [['What is the main contributor to plastic waste?'], ['food wrappers', 'drink bottles', 'grocery bags', 'cigarette butts'], ['cigarette butts']],
+        'M17' : [['What does QR stand for?'], ['Qualified Read', 'QR', 'Quick Response', 'Quality Reference'], ['Quick Response']],
+        'M18' : [['What is the most abundant naturally occuring gas in the air?'], ['Carbon dioxide', 'Nitrogen', 'Oxygen', 'Argon'], ['Nitrogen']],
+        'M19' : [['What country has less sheep than people?'], ['Australia', 'Nepal', 'New Zealand', 'Scotland'], ['Nepal']],
+        'M20' : [['Which country has the highest happiness index? (as of 2020) '], ['Denmark', 'Greenland', 'Switzerland', 'Finland'], ['Finland']],
+        'M21' : [['What does Wi-Fi stand for?'], ['Wireless Fidelity', 'Wireless Fi', 'Wi-Fi', 'Wireless Fix'], ['Wireless Fidelity']],
+        'M22' : [['What is Singapore’s National Flower?'], ['Vanda Miss Joaquim', 'Orchid', 'Peony', 'Sunflower'], ['Vanda Miss Joaquim']],
+        'M23' : [['What is Singapore’s Land Area?'], ['725', '800', '600', '500'], ['725']],
+        'M24' : [['Which cannot be considered Singapore’s National Dish?'], ['Singapore Chilli Crab', 'Hainanese Chicken Rice', 'Singapore Laksa', 'Singapore Satay'], ['Hainanese Chicken Rice']],
+        'M25' : [['Who are the Peranankans?'], ['Straits-Born Chinese', 'Malaysian', 'Indonesians', 'Singaporeans'], ['Straits-Born Chinese']],
+        'M26' : [['How many islands in Singapore?'], ['60', '62', '64', '1'], ['64']],
+        'M27' : [['Where is Changi Jewel?'], ['Changi Airport', 'Upper Changi', 'Changi Village', 'Changi Road'], ['Changi Airport']],
+        'M28' : [['What is Singlish?'], ['Singlish are colloquial catchphrases', 'Singlish is just English', 'Singlish is Chinese', 'Singlish is a world language'], ['Singlish are colloquial catchphrases']],
+        'M29' : [['Who pioneered the first F1 race?'], ['Singapore', 'Saudi Arabia', 'UAE', 'Qatar'], ['Singapore']],
+        'M30' : [['Singapore’s city concept?'], ['City in a garden', 'Garden city', 'Asian city', 'Flower town'], ['City in a garden']],
+        'M31' : [['Singapore Botanic Gardens is a:'], ['UNESCO World Heritage Site', 'UNCLOS AREA', 'FTZ', 'ASEAN'], ['UNESCO World Heritage Site']],
+        'M32' : [['Are Durians allowed on trains?'], ['Yes', 'No', 'Maybe', 'What are Durians?'], ['']],
+        'M33' : [['Singapore is part of :'], ['ASEAN', 'China', 'Malaysia', 'Malacca Straits'], ['ASEAN']],
+        'M34' : [['What is not true about Pulau Tekong?'], ['You can have fun and leisure activities here.', 'Military training area', 'Recruits Live here', 'Its notorious'], ['You can have fun and leisure activities here.']],
+        'M35' : [['Singapore Population Figure?'], ['5.6million', '4 million', '10 million', '6.7 million'], ['5.6million']],
+        'M36' : [['What is a NSMAN?'], ['Someone who is old and retired', 'Someone who has to serve reservist', 'Someone who is in NS', 'I am not sure...'], ['Someone who has to serve reservist']],
+        'M37' : [['What is a Hawker Centre?'], ['A place where Hawker sell food', 'A place to cook food for others', 'A Centre for hawkers to relax', 'An Office Name'], ['A place where Hawker sell food']],
+        'M38' : [['Which is not a City State?'], ['Singapore', 'Monaco', 'Philippines', 'Vatican'], ['Philippines']],
+        'M39' : [['Which of the following isn’t a form of legal punishment?'], ['Caning', 'Fines', 'Jail-Term', 'Public-Shaming'], ['Public-Shaming']],
+        'M40' : [['What is NEWater?'], ['Highly treated reclaimed wastewater', 'Newly created water', 'Salt water', 'Weird water'], ['Highly treated reclaimed wastewater']],
+        'M41' : [['Which Film did not feature Singapore?'], ['Hitman: Agent 47', 'Crazy Rich Asians', 'Ah Boys to Man', 'I Kinda Stupid'], ['I Kinda Stupid']],
+        'M42' : [['What is the Singapore Sling?'], ['An alcoholic drink', 'A Sling Shot', 'A rifle sling', 'Singapore’s geographical location'], ['An alcoholic drink']],
+        }
+        self.randomkey = "M"+str(random.randint(1,30)) #this gives the random starting question
+    def extractqn(self):
+        self.qn = "{}".format(self.set[0][0])
+    def returnkeyset(self):
+        qns= self.data_set[self.key]
+        return qns
+    ### Extracting MCQ options
+    def extractmcq(self,key= 0):
+        if key == 0:
+            self.key = self.randomkey
+        else:
+            self.key = key
+        ## input data set input key
+        self.qnlist = self.returnkeyset()
+        self.qn = "{}".format(self.qnlist[0][0])
+        op1 = "{}".format(self.qnlist[1][0])
+        op2 = "{}".format(self.qnlist[1][1])
+        op3 = "{}".format(self.qnlist[1][2])
+        op4 = "{}".format(self.qnlist[1][3])
+        ans = "{}".format(self.qnlist[2][0])
+        return self.qn, op1, op2, op3, op4, ans
+    
 class Round:
     def __init__(self):
+        self.queryobject = Questiondatabase()
         self.userboolean = False # True is for Player 1, False is for Player 2
-        self.player1index,self.player2index = 0,0 #This indicates player position on the board and is passed into the playing board to display
+        self.player1index,self.player2index =1,1 #This indicates player position on the board and is passed into the playing board to display
         #positions
         self.player1score,self.player2score = 0,0 #This indicates overall questions answered correctly.
         self.endgameboolean = False #Will always be false until the end turn check returns true.
         #Upon being True, the game will show the endgame frame and the next move if any, is to reset the Round.
-        self.questionstring = ""
-        self.mcq1,self.mcq2,self.mcq3,self.mcq4="","","",""
-        self.correctans = ""
+        self.questionstring,self.mcq1,self.mcq2,self.mcq3,self.mcq4,self.correctans=self.queryobject.extractmcq()
         self.useranscorrect = None #This is for the display on the answer screen.
         #above are all the variables required to run questionframemcq and to serve to the answer screen
         self.excludedlistofqns = [] #All elements in this list can not be called again.
+        self.nextframe = None
 
     def reset(self):
         self.userboolean = False 
         self.player1index,self.player2index = 0,0 
         self.player1score,self.player2score = 0,0 
-        self.endgame = False 
+        self.endgameboolean = False 
         self.questionstring = ""
         self.mcq1,self.mcq2,self.mcq3,self.mcq4="","","",""
         self.correctans = ""
         self.useranscorrect = None 
         self.excludedlistofqns = [] 
     
-    def endgame(self):
-        if self.index1index or self.player2index >= 100:
+    def checkendgame(self):
+        if self.player1index or self.player2index >= 100:
             self.endgameboolean = True
         else:
             return False 
 
-"""class GUILOOP():
-    def __init__(self) :
-        self.roundstart = Round() #roundstart is the object for holding all information
-        self.rootmaster = Tk()
-        self.rootmaster.geometry("1280x720")
-        self.rootmaster.configure(background="#52d1dc")
-        #self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
-        self.nextframe = Answerframe(self.rootmaster)
-        self.start  = Introframe(self.rootmaster,self.nextframe)
-        self.rootmaster.mainloop()"""
-# roundstart = Round() #roundstart is the object for holding all information
-# rootmaster = Tk()
-# rootmaster.geometry("1280x720")
-# rootmaster.configure(background="#52d1dc")
-# #self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
-# nextframe = Answerframe(self.rootmaster)
-# start  = Introframe(self.rootmaster,self.nextframe)
-# rootmaster.mainloop()
+
 class SNLFrame():
     def __init__(self, master):
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
@@ -72,10 +132,11 @@ class SNLFrame():
         future.master.grid(row=0,column=0)
         self.master.grid_forget()
         future.master.tkraise()
+        print(future)
 
 
 class Introframe(SNLFrame):
-    def __init__(self, master, greet_nextframe):
+    def __init__(self, master, greet_nextframe):#this is to run the explanation frame solely)
         super().__init__(master)
         master.title("Snakes and Ladders Know it All")
 
@@ -94,8 +155,9 @@ class Introframe(SNLFrame):
 
 
 class Endgameframe(SNLFrame):
-    def __init__(self, master):
+    def __init__(self, master , resetframe): #resetframe to restart game
         super().__init__(master)
+        self.resetframe = resetframe
         master.title("Thanks for playing!")
 
         self.label = Label(self.master, text="Rate us on Playstore 5/5, Hope you enjoyed the game​" , font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
@@ -107,16 +169,17 @@ class Endgameframe(SNLFrame):
         self.close_button = Button(master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.close_button.place(x=1000,y=700)
     def restartthegame(self): #problem with accessing the object 
-        self.roundstart.reset()
-        self.changeframe(Introframe(self.rootmaster))
+        self.roundstart.reset()#clean all variables and attributes
+        self.changeframe(self.resetframe)
 
 
     
-class QuestionframeMCQ :
-    def __init__(self,master,mcq1 = "MCQ1 QUESTION ",mcq2="MCQ2 QUESTION ",mcq3="MCQ3 QUESTION ",mcq4="MCQ4 QUESTION ",questionlabel=" Insert something here") -> None:
+class QuestionframeMCQ(SNLFrame) :
+    def __init__(self,master,attributes) -> None:
+        self.attributes = attributes
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         master.title("Question Time!")
-        self.questionlabel,self.mcq1,self.mcq2,self.mcq3,self.mcq4 = questionlabel,mcq1,mcq2,mcq3,mcq4
+        self.questionlabel,self.mcq1,self.mcq2,self.mcq3,self.mcq4 = self.attributes.questionstring,self.attributes.mcq1,self.attributes.mcq2,self.attributes.mcq3,self.attributes.mcq4
 
         #Declaration of all necessary labels
         self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
@@ -124,7 +187,7 @@ class QuestionframeMCQ :
         self.mcqbutton2 = Button(self.master, text=self.mcq2, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
         self.mcqbutton3 = Button(self.master, text=self.mcq3, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
         self.mcqbutton4 = Button(self.master, text=self.mcq4, command= None , height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.nextbutton = Button(self.master, text="Continue", command=self.nextpg("test") , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.nextbutton = Button(self.master, text="Continue", command=self.changeframe(nextframe) , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
 
         #placements
         self.qlabel.place(x=200 , y=100)
@@ -136,8 +199,8 @@ class QuestionframeMCQ :
 
 
 #Class below optional
-class QuestionframeOPEN:
-    def __init__(self,master,questionlabel = "Question to be inserted") -> None:
+"""class QuestionframeOPEN:
+    def __init__(self,master,attributes) -> None:
         super().__init__(master)
         master.title("Question Time!")
         self.questionlabel= questionlabel
@@ -152,12 +215,14 @@ class QuestionframeOPEN:
         self.answerbox.place(x=100,y=300)
 
     def nextpg(self):
-        pass
+        pass"""
 class Answerframe(SNLFrame) :
-    def __init__(self,master,answerstring =" You didn't specify a question",userboolean = None, playerturn = None,player1points = 0,player2points = 0) -> None:
+    def __init__(self,master,attributes) -> None:
         super().__init__(master)
-        self.answer = answerstring
-        self.boolean = userboolean #this thing is a boolean that will display different messages for correct or wrong messages.
+        self.attributes = attributes
+        self.nextframe=nextframe
+        self.answer = self.attributes.correctans
+        self.boolean = self.attributes.userboolean#this thing is a boolean that will display different messages for correct or wrong messages.
         if self.boolean == True:
             self.displaytext = "Omedetou Gozaimasu"
         elif self.boolean == False:
@@ -178,18 +243,19 @@ class Answerframe(SNLFrame) :
         self.nextbutton.place(x=1000,y=650)
 
     def addpoints(self):
-        if self.userboolean:
-            self.currentpts = self.currentpts + 1
-        elif self.correctanot == False:
-            pass
-        else:
-            return None ### fullproof code in case input is neither True/False
-        return (self.player, self.currentpts) ### use tuple to reduce hacking risks as values is not mutable
+        if self.attributes.userboolean == True and self.attributes.useranswercorrect == True:
+            self.attributes.player1points += 1
+        elif self.attributes.userboolean == False and self.attributes.useranswercorrect == True:
+            self.attributes.player2points += 1
+        self.attributes.useranswercorrect = False
+        self.attributes.checkendgame()
+        self.changeframe(self.nextframe)
     
-class Explanationframe() :
-    def __init__(self,master) -> None:
+class Explanationframe(SNLFrame) :
+    def __init__(self,master,attributes) -> None:
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         super().__init__(master)
+        self.attributes = attributes
         self.explanation= """
         You roll a dice. Then you move that many steps​
         \n
@@ -206,19 +272,17 @@ class Explanationframe() :
         """
         self.explanationheader = Label(self.master, text= "Rules As Below...", font= ("Corbel" , 32) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.explanationtext = Label(self.master,text= self.explanation,font= ("Roboto",12) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.continuebutton = Button(self.master, text="Continue", command=lambda : self.changeframe(self.nextframe), font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.continuebutton = Button(self.master, text="Continue", command=lambda : self.changeframe(self.attributes.nextframe), font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.continuebutton.place(x=1000,y=650)
         self.explanationtext.place(x=100,y=200)
         self.explanationheader.place(x=100,y=50,anchor="w")
 
 class Playingboard(SNLFrame) :
     def __init__(self,master,attributes) :
-        self.attributes = attributes
-        self.attributes.player1position = 1
         super().__init__(master)
-        self.playernumber = self.attributes.userboolean#This is the player turn indicator
-        self.player1position,self.player2position = self.attributes.player1index,self.attributes.player2index
-        self.variable = 0        
+        self.attributes = attributes
+        self.userboolean = self.attributes.userboolean#This is the player turn indicator
+        self.player1position,self.player2position = self.attributes.player1index,self.attributes.player2index        
 
         #canvas grid system
         self.canvas = Canvas(self.master , width=600 , height= 600 , background="#53599a")
@@ -237,6 +301,7 @@ class Playingboard(SNLFrame) :
         self.canvas.bind('<Configure>', create_grid)
         #player demarcation below
         self.canvas.create_rectangle(0,600,30,570,fill="red")
+        self.canvas.create_rectangle(30,570,60,540,fill="Blue")
 
 
 
@@ -244,29 +309,19 @@ class Playingboard(SNLFrame) :
         self.labeltitle = Label(self.master , text= " THE SHOWDOWN BOARD " , font=("Corbel" , 36), foreground="#110b11" , padx = 10 ,pady = 10 )
         self.player1label = Label(self.master , text="Player 1 ",font=("Corbel" ,24),background="#52d1dc")
         self.player2label = Label(self.master , text= "Player 2",font=("Corbel" ,24),background="#52d1dc")
-        self.dice1 = Label(self.master , text= self.variable , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
-        self.dice2 = Label(self.master , text= self.variable , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
+        self.dice1 = Label(self.master , text= 0 , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
+        self.dice2 = Label(self.master , text= 0 , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
         self.player1point=Label(self.master, text="Player 1 Points" , font=("Corbel" ,24),background="#52d1dc")
         self.player2point=Label(self.master, text="Player 2 Points" , font=("Corbel" ,24),background="#52d1dc")
         self.player1counter = Label(self.master, text="0" , font=("Corbel" ,24),background="#52d1dc")
         self.player2counter = Label(self.master, text="0" , font=("Corbel" ,24),background="#52d1dc")
         self.close_button = Button(self.master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
-        self.rolldicebutton = Button(self.master, text="Roll Dice", command=lambda :self.rollinganimation(playerturn) , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.rolldicebutton = Button(self.master, text="Roll Dice", command=lambda :self.rollinganimation() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         #Popup system with waiting here
         self.popupsnake = Label(self.master)
         self.popupladder = Label(self.master)
         self.popupnextplayer = Label(self.master)
         self.popuprandomhit = Label(self.master)
-        """if self.popuptype == 'nextplayer':
-            self.popupnextplayer.place(x=300,y=300)
-        elif self.popuptype == "snake" :
-            self.popupsnake.place(x=300,y=300)
-        elif self.popuptype == "ladder":
-            self.popupladder.place(x=300,y=300)
-        elif self.popuptype == 'gotquestion' :
-            self.popuprandomhit.place(x=300,y=300)
-        else:
-            pass"""
 
         
         #Below Are positional placements
@@ -282,51 +337,88 @@ class Playingboard(SNLFrame) :
         self.player1counter.place(x=1000,y=150)
         self.player2counter.place(x=1000,y=350)
         self.rolldicebutton.place(x=100,y=600)
-        roundstart.player1score
 
 
-    def rollinganimation(self,playernumber):
+    def rollinganimation(self):
         """self.variable  = random.randint(1,6)
         self.dice1 = Label(self.master , text= self.variable , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
         self.dice1.place(x=100,y=200)"""
-        time.sleep(0.5)
-        outcomenumber = random.randint(1,6)
-        #Reminder that true is player1, player2
-        if playernumber == True:
+        time.sleep(0.2)
+        outcomenumber = random.randint(1,1)
+        #Reminder that true is player1, player2 is false
+        if self.attributes.userboolean == True:
             self.dice1 = Label(self.master , text= outcomenumber , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
             self.dice1.place(x=100,y=200)
-        elif playernumber == False:
+            self.attributes.player1index+=outcomenumber
+        elif self.attributes.userboolean == False:
             self.dice2 = Label(self.master , text= outcomenumber , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
             self.dice2.place(x=100, y=400)
-        self.changeframe(Answerframe(self.rootmaster))
+            self.attributes.player2index+=outcomenumber
+        self.attributes.checkendgame()#incase someone wins immediate
+        if self.attributes.endgameboolean == True:
+            pass #some code here to straightforward all the way to the endgamescreen
+        else:
+            pass
+        #Now displace the movement. Player 1 is by default red, Player 2 is by default Blue
+        if self.attributes.userboolean == True:
+            x1,y1,x2,y2 = self.indextoboardlocation(self.attributes.player1index)
+            self.canvas.create_rectangle(x1,y1,x2,y2,fill="red")
+        elif self.attributes.userboolean == False:
+            x1,y1,x2,y2 = self.indextoboardlocation(self.attributes.player2index)
+            self.canvas.create_rectangle(x1+30,y1-30,x2+30,y2-30,fill="Blue")
+        #Below is to check if hit question, and if yes, what type of prompt to show
+        #self.showprompt()
+        
+    def showprompt(self):
+        messagebox.showerror("IDK","IDK")
+        
+    def indextoboardlocation(self,index):
+        j = index% 20
+        if j > 0 and j < 11:
+            x = 60 * (j-1)
+        elif j == 0:
+            x = 0
+        else:
+            x = 540 - 60 * (j - 11)
+        m = x + 30
+        k = int((index-1)/ 10)
+        y = 600 - 60 * k
+        n = y - 30
+        return x, y, m, n#x,y bottom coords, m,n topright coords
 
 
 
-#code below to be inserted at gui initialization
-#pages = {1:Introframe(master) , 2:QuestionframeOPEN(master) , 3: QuestionframeMCQ(master) , 4:Answerframe(master) , 5: Endgameframe(master)}
 
 roundstart = Round() #roundstart is the object for holding all information
 rootmaster = Tk()
 rootmaster.geometry("1280x720")
 rootmaster.configure(background="#52d1dc")
-#self.nextframe = Playingboard(self.rootmaster,10,1,'ladder',None,None)
-#nextframe = Playingboard(rootmaster,roundstart)
-#start  = Introframe(rootmaster,nextframe)
-nextframe = Playingboard(rootmaster,roundstart)
+#Above all tkinter initiation
+nextframe = Explanationframe(rootmaster,roundstart) #Fixed Variable instantiation
+startframe  = Introframe(rootmaster,nextframe)
 
-print(roundstart.player1position)
-b = True
-count = 0
-# while b:
-#     nextframe = Playingboard(rootmaster,roundstart)
-#     #roundstart = Round()
-#     if count == 0:
-#         #
-#         count += 1
-#     elif count == 1:
-#         pass
-#     elif count == 2:
-#         count = 0
-#         b = roundstart.endgameboolean
-#print(roundstart.a)
+
+count = 0 #Determine progress interation thru the 3 frame loop shown below
+while roundstart.endgameboolean == False : 
+    if count == 0 :
+        count+=1
+        roundstart.nextframe= Playingboard(rootmaster,roundstart)
+    #roundstart = Round()
+    elif count == 1: #at playing board
+        count += 1
+        roundstart.nextframe = QuestionframeMCQ(rootmaster,roundstart)
+    elif count == 2: #at question screen
+        count+= 1
+        roundstart.nextframe = Answerframe(rootmaster,roundstart)
+    elif count == 3: #at answer screen
+        roundstart.nextframe=Playingboard(rootmaster,roundstart)
+        count = 1
+    print(count)
+    rootmaster.mainloop()
+
+if roundstart.endgameboolean == True: #reset game?
+    nextframe = Endgameframe(rootmaster,Introframe(rootmaster,startframe))
+        
 rootmaster.mainloop()
+
+
