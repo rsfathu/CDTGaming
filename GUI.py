@@ -76,11 +76,10 @@ class Questiondatabase:
         qns= self.data_set[self.key]
         return qns
     ### Extracting MCQ options
-    def extractmcq(self,key= 0):
-        if key == 0:
-            self.key = self.randomkey
-        else:
-            self.key = key
+    def extractmcq(self):
+        self.randomkey = "M"+str(random.randint(1,40))
+        self.key = self.randomkey
+        
         ## input data set input key
         self.qnlist = self.returnkeyset()
         self.qn = "{}".format(self.qnlist[0][0])
@@ -92,7 +91,8 @@ class Questiondatabase:
         return self.qn, op1, op2, op3, op4, ans
     
 class Round:
-    def __init__(self):
+    def __init__(self,rootmaster):
+        self.rootmaster = rootmaster
         self.queryobject = Questiondatabase()
         self.userboolean = False # True is for Player 1, False is for Player 2
         self.player1index,self.player2index =1,1 #This indicates player position on the board and is passed into the playing board to display
@@ -100,11 +100,37 @@ class Round:
         self.player1score,self.player2score = 0,0 #This indicates overall questions answered correctly.
         self.endgameboolean = False #Will always be false until the end turn check returns true.
         #Upon being True, the game will show the endgame frame and the next move if any, is to reset the Round.
-        self.questionstring,self.mcq1,self.mcq2,self.mcq3,self.mcq4,self.correctans=self.queryobject.extractmcq()
+        self.questionstring,self.mcq1,self.mcq2,self.mcq3,self.mcq4,self.correctans=self.queryobject.extractmcq()#first question
         self.useranscorrect = False #This is for the display on the answer screen.
         #above are all the variables required to run questionframemcq and to serve to the answer screen
         self.excludedlistofqns = [] #All elements in this list can not be called again.
         self.nextframe = None
+        self.count = 1 #count 1 for intro frame
+        self.startframe  = Introframe(rootmaster,self)
+        self.count += 1
+        self.setnextframe(rootmaster)
+        if self.endgameboolean == False:
+            print(self.nextframe)
+        rootmaster.mainloop()
+    def setnextframe(self,rootmaster):
+        if self.count == 2:
+            self.nextframe = Explanationframe(rootmaster,self)
+            self.count+=1
+        elif self.count == 3 :
+            self.nextframe= Playingboard(rootmaster,self)
+            #roundstart = Round()
+        elif self.count ==3.5:
+            self.nextframe= Playingboard(rootmaster,self)
+            self.count = 3
+        elif self.count == 4: #at playing board
+            self.nextframe = QuestionframeMCQ(rootmaster,self)
+        elif self.count== 5: #at question screen
+            self.nextframe = Answerframe(rootmaster,self)
+        elif self.count == 6: #at answer screen
+            self.nextframe=Playingboard(rootmaster,self)
+            self.count= 4
+        elif self.count == 7 :
+            self.nameframe = Endgameframe(rootmaster,self)
 
     def reset(self):
         self.userboolean = False 
@@ -116,34 +142,37 @@ class Round:
         self.correctans = ""
         self.useranscorrect = None 
         self.excludedlistofqns = [] 
+        self.count = 0
     
     def checkendgame(self):
-        if self.player1index or self.player2index >= 100:
+        if self.player1index>= 100 or self.player2index >= 100:
             self.endgameboolean = True
         else:
             return False 
 
 
 class SNLFrame():
-    def __init__(self, master):
+    def __init__(self, master,attributes):
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
-
-    def changeframe(self,future):
-        future.master.grid(row=0,column=0)
+        self.attributes = attributes
+    def changeframe(self):
+        self.attributes.nextframe.master.grid(row=0,column=0)
         self.master.grid_forget()
-        future.master.tkraise()
-        print(future)
+        self.attributes.nextframe.master.tkraise()
+        self.attributes.setnextframe(self.attributes.rootmaster)
+        print(self.attributes.nextframe)
 
 
 class Introframe(SNLFrame):
-    def __init__(self, master, greet_nextframe):#this is to run the explanation frame solely)
-        super().__init__(master)
+    def __init__(self, master,attributes):#this is to run the explanation frame solely)
+        super().__init__(master,attributes)
+        self.attributes = attributes
         master.title("Snakes and Ladders Know it All")
 
         self.label = Label(self.master, text="Snakes and Ladders, KNOW IT ALL!!! " , font= ("Corbel" , 42) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.label.place(x=300 , y = 200)
 
-        self.greet_nextframe = greet_nextframe
+        self.greet_nextframe = attributes.nextframe
         self.greet_button = Button(self.master, text="Let's Begin, Hajimasho!",font=("Roboto",24), padx=10 , pady=10 , command=self.greet_button_pressed)
         self.greet_button.place(x=600, y=320)
 
@@ -151,13 +180,13 @@ class Introframe(SNLFrame):
         self.close_button.place(x=1000,y=600)
         self.master.grid(row=0,column=0)
     def greet_button_pressed(self):
-        self.changeframe(self.greet_nextframe)
+        self.changeframe()
 
 
 class Endgameframe(SNLFrame):
-    def __init__(self, master , resetframe): #resetframe to restart game
+    def __init__(self, master ,attributes ): #resetframe to restart game
         super().__init__(master)
-        self.resetframe = resetframe
+        self.resetframe = attributes.nextframe
         master.title("Thanks for playing!")
 
         self.label = Label(self.master, text="Rate us on Playstore 5/5, Hope you enjoyed the game​" , font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
@@ -176,9 +205,10 @@ class Endgameframe(SNLFrame):
     
 class QuestionframeMCQ(SNLFrame) :
     def __init__(self,master,attributes) -> None:
+        super().__init__(master,attributes)
         self.attributes = attributes
+        self.attributes.questionstring,self.attributes.mcq1,self.attributes.mcq2,self.attributes.mcq3,self.attributes.mcq4,self.attributes.correctans=self.attributes.queryobject.extractmcq()
         self.attributes.useranscorrect = False#Reset correct or wrong each turn
-        self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         master.title("Question Time!")
         self.questionlabel,self.mcq1,self.mcq2,self.mcq3,self.mcq4 = self.attributes.questionstring,self.attributes.mcq1,self.attributes.mcq2,self.attributes.mcq3,self.attributes.mcq4
 
@@ -200,12 +230,13 @@ class QuestionframeMCQ(SNLFrame) :
     def setuserans(self,buttonstring):
         self.userchoice = buttonstring
         self.check_answer()
-        self.changeframe(self.attributes.nextframe)
+        self.attributes.count += 1
+        self.changeframe()
         print(self.attributes.useranscorrect)
     def next_button(self):
         self.changeframe(self.attributes.nextframe)
     def check_answer(self):
-        if self.userchoice == self.attributes.correctans :
+        if str(self.userchoice) == str(self.attributes.correctans) :
             self.attributes.useranscorrect = True
         else:
             self.attributes.useranscorrect = False
@@ -229,7 +260,7 @@ class QuestionframeMCQ(SNLFrame) :
         pass"""
 class Answerframe(SNLFrame) :
     def __init__(self,master,attributes) -> None:
-        super().__init__(master)
+        super().__init__(master,attributes)
         self.attributes = attributes
         if self.attributes.useranscorrect == True:
             self.displaytext = "Omedetou Gozaimasu"
@@ -247,7 +278,8 @@ class Answerframe(SNLFrame) :
         self.nextbutton.place(x=1000,y=650)
     def next_button(self) :
         self.addpoints()
-        self.changeframe(self.attributes.nextframe)
+        self.attributes.count = 6
+        self.changeframe()
 
     def addpoints(self):
         if self.attributes.userboolean == True and self.attributes.useranscorrect == True:
@@ -261,7 +293,7 @@ class Answerframe(SNLFrame) :
 class Explanationframe(SNLFrame) :
     def __init__(self,master,attributes) -> None:
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
-        super().__init__(master)
+        super().__init__(master,attributes)
         self.attributes = attributes
         self.explanation= """
         You roll a dice. Then you move that many steps​
@@ -279,14 +311,15 @@ class Explanationframe(SNLFrame) :
         """
         self.explanationheader = Label(self.master, text= "Rules As Below...", font= ("Corbel" , 32) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.explanationtext = Label(self.master,text= self.explanation,font= ("Roboto",12) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.continuebutton = Button(self.master, text="Continue", command=lambda : self.changeframe(self.attributes.nextframe), font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.continuebutton = Button(self.master, text="Continue", command=lambda : self.changeframe(), font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.continuebutton.place(x=1000,y=650)
         self.explanationtext.place(x=100,y=200)
         self.explanationheader.place(x=100,y=50,anchor="w")
+        
 
 class Playingboard(SNLFrame) :
     def __init__(self,master,attributes) :
-        super().__init__(master)
+        super().__init__(master,attributes)
         self.attributes = attributes
         self.userboolean = self.attributes.userboolean#This is the player turn indicator
         self.player1position,self.player2position = self.attributes.player1index,self.attributes.player2index        
@@ -307,8 +340,9 @@ class Playingboard(SNLFrame) :
                 self.canvas.create_line([(0, i), (w, i)], tag='grid_line',fill='white')
         self.canvas.bind('<Configure>', create_grid)
         #player demarcation below
-        self.canvas.create_rectangle(0,600,30,570,fill="red")
-        self.canvas.create_rectangle(30,570,60,540,fill="Blue")
+        self.player1initial =self.canvas.create_rectangle(self.indextoboardlocation(self.attributes.player1index),fill="red")
+        self.x1,self.y1,self.x2,self.y2 =self.indextoboardlocation(self.attributes.player2index)
+        self.player2initial=self.canvas.create_rectangle(self.x1+30,self.y1-30,self.x2+30,self.y2-30,fill="Blue")
 
 
 
@@ -320,8 +354,8 @@ class Playingboard(SNLFrame) :
         self.dice2 = Label(self.master , text= 0 , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
         self.player1point=Label(self.master, text="Player 1 Points" , font=("Corbel" ,24),background="#52d1dc")
         self.player2point=Label(self.master, text="Player 2 Points" , font=("Corbel" ,24),background="#52d1dc")
-        self.player1counter = Label(self.master, text="0" , font=("Corbel" ,24),background="#52d1dc")
-        self.player2counter = Label(self.master, text="0" , font=("Corbel" ,24),background="#52d1dc")
+        self.player1counter = Label(self.master, text=self.attributes.player1score , font=("Corbel" ,24),background="#52d1dc")
+        self.player2counter = Label(self.master, text=self.attributes.player2score , font=("Corbel" ,24),background="#52d1dc")
         self.close_button = Button(self.master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.rolldicebutton = Button(self.master, text="Roll Dice", command=lambda :self.rollinganimation() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         #Popup system with waiting here
@@ -344,7 +378,19 @@ class Playingboard(SNLFrame) :
         self.player1counter.place(x=1000,y=150)
         self.player2counter.place(x=1000,y=350)
         self.rolldicebutton.place(x=100,y=600)
+        self.snake_ls = [
+        (26,13),(41,22),(68,51),(78,15),(98,61)
+        ]
 
+        self.ladder_ls = [
+        (2,24),(12,71),(32,46),(43,84),(66,88)
+        ]
+        self.surprise_ls = [
+        (7, 6), (9, 8), (11, 10), (16, 15), (21, 20), (26, 25),
+        (29, 28), (35, 34), (38, 37), (50, 49), (45, 44),
+        (54, 53), (56, 55), (59, 58), (63, 62), (72, 71),
+        (76, 75), (78, 77), (82, 81), (86, 85), (90, 89), (93, 92)
+        ]
 
     def rollinganimation(self):
         """self.variable  = random.randint(1,6)
@@ -357,27 +403,82 @@ class Playingboard(SNLFrame) :
             self.dice1 = Label(self.master , text= outcomenumber , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
             self.dice1.place(x=100,y=200)
             self.attributes.player1index+=outcomenumber
+            print(self.attributes.player1index)
         elif self.attributes.userboolean == False:
             self.dice2 = Label(self.master , text= outcomenumber , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
             self.dice2.place(x=100, y=400)
             self.attributes.player2index+=outcomenumber
+            print(self.attributes.player2index)
         self.attributes.checkendgame()#incase someone wins immediate
         if self.attributes.endgameboolean == True:
-            print("Someonewon") #some code here to straightforward all the way to the endgamescreen
+            print("Someonewon")
+            self.changeframe(self.attributes.nextframe)
+             #some code here to straightforward all the way to the endgamescreen
         else:
             pass
         #Now displace the movement. Player 1 is by default red, Player 2 is by default Blue
         if self.attributes.userboolean == True:
             x1,y1,x2,y2 = self.indextoboardlocation(self.attributes.player1index)
             self.canvas.create_rectangle(x1,y1,x2,y2,fill="red")
+            self.gotquestion = self.check_prompt(self.attributes.player1index)
+            self.canvas.delete(self.player1initial)
+            self.attributes.count = 3.5
         elif self.attributes.userboolean == False:
             x1,y1,x2,y2 = self.indextoboardlocation(self.attributes.player2index)
             self.canvas.create_rectangle(x1+30,y1-30,x2+30,y2-30,fill="Blue")
+            
+            self.canvas.delete(self.player2initial)
+            self.gotquestion= self.check_prompt(self.attributes.player2index)
+            if self.gotquestion :
+                self.attributes.count =4
+            elif self.gotquestion== False:
+                self.attributes.count= 3.5
+        print(True)
+        self.changeframe()
         #Below is to check if hit question, and if yes, what type of prompt to show
         #self.showprompt()
+
+
         
-    def showprompt(self):
-        messagebox.showerror("IDK","IDK")
+    def check_prompt(self,index):
+        for i in range(len(self.snake_ls)):
+            if index == self.snake_ls[i][0]:
+                i1 = self.snake_ls[i][1]
+                b = self.snake(i1)
+                return True
+            else:
+                pass
+        for i in range(len(self.ladder_ls)):
+            if index == self.ladder_ls[i][0]:
+                i1 = self.ladder_ls[i][1]
+                b = self.ladder(i1)
+                return True
+            else:
+                pass
+        for i in range(len(self.surprise_ls)):
+            if index == self.surprise_ls[i][0]:
+                i1 = self.surprise_ls[i][1]
+                b = self.surprise(i1)
+                return True
+            else:
+                pass
+        if self.attributes.userboolean == True:
+            messagebox.showerror("Next Player" , "Player 2, Now it's your turn")
+            self.attributes.userboolean = False
+        else:
+            messagebox.showerror("Next Player" , "Player 1, Now it's your turn")
+            self.attributes.userboolean = True
+        return False
+    def snake(self,i1):
+         messagebox.showerror("Snake","You stepped on snake! Answer this qn correctly or else you will have to fall back to tile {}".format(i1))
+
+    def ladder(self,i1):
+         messagebox.showerror("Ladder","You stepped on ladder! Answer this qn correctly to move to tile {}".format(i1))
+
+    def surprise(self,i1):
+         messagebox.showerror("Surprise","You stepped on surprise! Answer this qn correctly or else you will have to fall back to tile {}".format(i1))
+
+
         
     def indextoboardlocation(self,index):
         j = index% 20
@@ -395,37 +496,17 @@ class Playingboard(SNLFrame) :
 
 
 
-
-roundstart = Round() #roundstart is the object for holding all information
 rootmaster = Tk()
 rootmaster.geometry("1280x720")
 rootmaster.configure(background="#52d1dc")
-#Above all tkinter initiation
-roundstart.nextframe = Answerframe(rootmaster,roundstart) #Fixed Variable instantiation
-startframe  = Introframe(rootmaster,roundstart.nextframe)
-
-
-count = 0 #Determine progress interation thru the 3 frame loop shown below
-while roundstart.endgameboolean == False : 
-    if count == 0 :
-        count+=1
-        roundstart.nextframe= Playingboard(rootmaster,roundstart)
-    #roundstart = Round()
-    elif count == 1: #at playing board
-        count += 1
-        roundstart.nextframe = QuestionframeMCQ(rootmaster,roundstart)
-    elif count == 2: #at question screen
-        count+= 1
-        roundstart.nextframe = Answerframe(rootmaster,roundstart)
-    elif count == 3: #at answer screen
-        roundstart.nextframe=Playingboard(rootmaster,roundstart)
-        count = 1
-    print(count)
-    rootmaster.mainloop()
-
-if roundstart.endgameboolean == True: #reset game?
-    nextframe = Endgameframe(rootmaster,Introframe(rootmaster,startframe))
-        
+roundstart = Round(rootmaster) #roundstart is the object for holding all information
 rootmaster.mainloop()
+#Above all tkinter initiation
+
+
+
+
+
+
 
 
