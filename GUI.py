@@ -29,11 +29,11 @@ class Questiondatabase:
         'M1' : [['Which animal has no bones?'], ['Shark', 'Whale', 'Dolphin', 'Frog'], ['Shark']],
         'M2' : [['The name "Singapore" is derived from Sanskrit. What is the meaning?'], [], ['Lion City']],
         'M3' : [['Who has the strongest passport?'], ['Japan', 'Singapore', 'South Korea', 'Australia'], ['Japan']],
-        'M4' : [['What is the name of Singapores International Airport?'], [], ['Changi Airport']],
-        'M5' : [['How many terminals does Singapores Airport have?'], [], ['5']],
+        'M4' : [['What is the name of Singapores International Airport?'], ['Changi Airport' , "Changi Village" , "Changi Corner" , "Changi Road"], ['Changi Airport']],
+        'M5' : [['How many terminals does Singapores Airport have?'], ["4","3","5","6"], ['5']],
         'M6' : [['What is the fastest growing social media platform as of today?'], ['Instagram', 'Twitter', 'TikTok', 'Snapchat'], ['TikTok']],
         'M7' : [['What is the name of the area between your eyebrows?'], ['Glabella', 'Weenis', 'Poplitealm Fossa', 'Hallux'], ['Glabella']],
-        'M8' : [['How many teeth does an adult human have?'], [], ['32']],
+        'M8' : [['How many teeth does an adult human have?'], ["1","24","32","40"], ['32']],
         'M9' : [['What is the most spoken language in the world?'], ['Mandarin', 'Spanish', 'English', 'German'], ['Mandarin']],
         'M10' : [['In what stage of life, do humans have the most bones?'], ['Baby', 'Child', 'Adult', 'Elderly'], ['Baby']],
         'M11' : [['What is the end of your shoelace called?'], ['Phalanx', 'Tip', 'End', 'Aglet'], ['Aglet']],
@@ -69,7 +69,7 @@ class Questiondatabase:
         'M41' : [['Which Film did not feature Singapore?'], ['Hitman: Agent 47', 'Crazy Rich Asians', 'Ah Boys to Man', 'I Kinda Stupid'], ['I Kinda Stupid']],
         'M42' : [['What is the Singapore Sling?'], ['An alcoholic drink', 'A Sling Shot', 'A rifle sling', 'Singapore’s geographical location'], ['An alcoholic drink']],
         }
-        self.randomkey = "M"+str(random.randint(1,30)) #this gives the random starting question
+        self.randomkey = "M"+str(random.randint(1,40)) #this gives the random starting question
     def extractqn(self):
         self.qn = "{}".format(self.set[0][0])
     def returnkeyset(self):
@@ -101,7 +101,7 @@ class Round:
         self.endgameboolean = False #Will always be false until the end turn check returns true.
         #Upon being True, the game will show the endgame frame and the next move if any, is to reset the Round.
         self.questionstring,self.mcq1,self.mcq2,self.mcq3,self.mcq4,self.correctans=self.queryobject.extractmcq()
-        self.useranscorrect = None #This is for the display on the answer screen.
+        self.useranscorrect = False #This is for the display on the answer screen.
         #above are all the variables required to run questionframemcq and to serve to the answer screen
         self.excludedlistofqns = [] #All elements in this list can not be called again.
         self.nextframe = None
@@ -177,27 +177,38 @@ class Endgameframe(SNLFrame):
 class QuestionframeMCQ(SNLFrame) :
     def __init__(self,master,attributes) -> None:
         self.attributes = attributes
+        self.attributes.useranscorrect = False#Reset correct or wrong each turn
         self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
         master.title("Question Time!")
         self.questionlabel,self.mcq1,self.mcq2,self.mcq3,self.mcq4 = self.attributes.questionstring,self.attributes.mcq1,self.attributes.mcq2,self.attributes.mcq3,self.attributes.mcq4
 
         #Declaration of all necessary labels
-        self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.mcqbutton1 = Button(self.master, text=self.mcq1, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton2 = Button(self.master, text=self.mcq2, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton3 = Button(self.master, text=self.mcq3, command= None, height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.mcqbutton4 = Button(self.master, text=self.mcq4, command= None , height= 2 , width= 10 , padx= 2 , pady = 2 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
-        self.nextbutton = Button(self.master, text="Continue", command=self.changeframe(nextframe) , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
-
+        self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20,wraplength=500)
+        self.mcqbutton1 = Button(self.master, text=self.mcq1, command= lambda: self.setuserans(self.mcq1), height= 4 , width= 40 , padx= 10 , pady = 10 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton2 = Button(self.master, text=self.mcq2, command= lambda: self.setuserans(self.mcq2), height= 4 , width= 40 , padx= 10 , pady = 10 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton3 = Button(self.master, text=self.mcq3, command= lambda: self.setuserans(self.mcq3), height= 4 , width= 40, padx= 10 , pady = 10 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        self.mcqbutton4 = Button(self.master, text=self.mcq4, command= lambda: self.setuserans(self.mcq4) , height= 4 , width= 40 , padx= 10 , pady = 10 , font=("roboto" , 12) , background="#f991cc" , foreground="#110b11")
+        #self.nextbutton = Button(self.master, text="Continue", command=self.next_button , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        
         #placements
         self.qlabel.place(x=200 , y=100)
         self.mcqbutton1.place(x=300,y=300)
         self.mcqbutton2.place(x=800,y=300)
         self.mcqbutton3.place(x=300,y=500)
         self.mcqbutton4.place(x=800,y=500)
-        self.nextbutton.place(x=1000,y=650)
-
-
+        #self.nextbutton.place(x=1000,y=650)
+    def setuserans(self,buttonstring):
+        self.userchoice = buttonstring
+        self.check_answer()
+        self.changeframe(self.attributes.nextframe)
+        print(self.attributes.useranscorrect)
+    def next_button(self):
+        self.changeframe(self.attributes.nextframe)
+    def check_answer(self):
+        if self.userchoice == self.attributes.correctans :
+            self.attributes.useranscorrect = True
+        else:
+            self.attributes.useranscorrect = False
 #Class below optional
 """class QuestionframeOPEN:
     def __init__(self,master,attributes) -> None:
@@ -220,36 +231,32 @@ class Answerframe(SNLFrame) :
     def __init__(self,master,attributes) -> None:
         super().__init__(master)
         self.attributes = attributes
-        self.nextframe=nextframe
-        self.answer = self.attributes.correctans
-        self.boolean = self.attributes.userboolean#this thing is a boolean that will display different messages for correct or wrong messages.
-        if self.boolean == True:
+        if self.attributes.useranscorrect == True:
             self.displaytext = "Omedetou Gozaimasu"
-        elif self.boolean == False:
+        elif self.attributes.useranscorrect == False:
             self.displaytext = "Awwwwwwww...."
         else:
             self.displaytext = "Amazing you managed to find a loophole."
         #declaration
-        self.answerlabel = Label(self.master,text= "ANSWER HERE",font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        self.nextbutton = Button(self.master, text="Continue", command=None, font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
+        self.answerlabel = Label(self.master,text= self.attributes.correctans,font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.nextbutton = Button(self.master, text="Continue", command=self.next_button, font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.congratulations = Label(self.master,text= self.displaytext,font= ("Corbel" , 36) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
-        if self.boolean == True:
-            self.useriscorrect = True
-        else:
-            self.useriscorrect = False
         #placements
         self.answerlabel.place(x=200,y=100)
         self.congratulations.place(x=200,y=300)
         self.nextbutton.place(x=1000,y=650)
+    def next_button(self) :
+        self.addpoints()
+        self.changeframe(self.attributes.nextframe)
 
     def addpoints(self):
-        if self.attributes.userboolean == True and self.attributes.useranswercorrect == True:
+        if self.attributes.userboolean == True and self.attributes.useranscorrect == True:
             self.attributes.player1points += 1
-        elif self.attributes.userboolean == False and self.attributes.useranswercorrect == True:
+        elif self.attributes.userboolean == False and self.attributes.useranscorrect == True:
             self.attributes.player2points += 1
-        self.attributes.useranswercorrect = False
+        self.attributes.useransrcorrect = False
         self.attributes.checkendgame()
-        self.changeframe(self.nextframe)
+        
     
 class Explanationframe(SNLFrame) :
     def __init__(self,master,attributes) -> None:
@@ -344,7 +351,7 @@ class Playingboard(SNLFrame) :
         self.dice1 = Label(self.master , text= self.variable , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
         self.dice1.place(x=100,y=200)"""
         time.sleep(0.2)
-        outcomenumber = random.randint(1,1)
+        outcomenumber = random.randint(1,6)
         #Reminder that true is player1, player2 is false
         if self.attributes.userboolean == True:
             self.dice1 = Label(self.master , text= outcomenumber , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
@@ -356,7 +363,7 @@ class Playingboard(SNLFrame) :
             self.attributes.player2index+=outcomenumber
         self.attributes.checkendgame()#incase someone wins immediate
         if self.attributes.endgameboolean == True:
-            pass #some code here to straightforward all the way to the endgamescreen
+            print("Someonewon") #some code here to straightforward all the way to the endgamescreen
         else:
             pass
         #Now displace the movement. Player 1 is by default red, Player 2 is by default Blue
@@ -394,8 +401,8 @@ rootmaster = Tk()
 rootmaster.geometry("1280x720")
 rootmaster.configure(background="#52d1dc")
 #Above all tkinter initiation
-nextframe = Explanationframe(rootmaster,roundstart) #Fixed Variable instantiation
-startframe  = Introframe(rootmaster,nextframe)
+roundstart.nextframe = Answerframe(rootmaster,roundstart) #Fixed Variable instantiation
+startframe  = Introframe(rootmaster,roundstart.nextframe)
 
 
 count = 0 #Determine progress interation thru the 3 frame loop shown below
