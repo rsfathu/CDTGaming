@@ -19,16 +19,8 @@ fee1c7- Beige
 class Questiondatabase:
     def __init__(self) -> None:
         self.data_set = {
-        'E1' : [['What is the fastest animal in the world?'], ['Tiger', 'Cheetah', 'Puma', 'Peregrine Falcon'], ['Peregrine Falcon']],
-        'E2' : [['What is the year the First World War ended?'], [], ['1918']],
-        'E3' : [['What is the smallest planet in our solar system?'], ['Pluto', 'Jupiter', 'Mercury', 'Saturn'], ['Pluto']],
-        'E4' : [['When did the SARS outbreak occur?'], [], ['2002']],
-        'E5' : [['How many continents are there in the World?'], ['6', '7', '8', '9'], ['7']],
-        'E6' : [['How many states are there in the United States?'], ['50', '', '', ''], ['']],
-        'E7' : [['Where are the Himalayans located?'], ['India', 'Nepal', 'China', 'Russia'], ['India']],
-        'E8' : [['How many playing cards are there in a regular deck?'], [], ['52']],
         'M1' : [['Which animal has no bones?'], ['Shark', 'Whale', 'Dolphin', 'Frog'], ['Shark']],
-        'M2' : [['The name "Singapore" is derived from Sanskrit. What is the meaning?'], [], ['Lion City']],
+        'M2' : [['The name "Singapore" is derived from Sanskrit. What is the meaning?'], ['Garden City', 'Lion City', 'City surrounded by Seas', 'Red Dot'], ['Lion City']],
         'M3' : [['Who has the strongest passport?'], ['Japan', 'Singapore', 'South Korea', 'Australia'], ['Japan']],
         'M4' : [['What is the name of Singapores International Airport?'], ['Changi Airport' , "Changi Village" , "Changi Corner" , "Changi Road"], ['Changi Airport']],
         'M5' : [['How many terminals does Singapores Airport have?'], ["4","3","5","6"], ['5']],
@@ -58,7 +50,7 @@ class Questiondatabase:
         'M29' : [['Who pioneered the first F1 race?'], ['Singapore', 'Saudi Arabia', 'UAE', 'Qatar'], ['Singapore']],
         'M30' : [['Singapore’s city concept?'], ['City in a garden', 'Garden city', 'Asian city', 'Flower town'], ['City in a garden']],
         'M31' : [['Singapore Botanic Gardens is a:'], ['UNESCO World Heritage Site', 'UNCLOS AREA', 'FTZ', 'ASEAN'], ['UNESCO World Heritage Site']],
-        'M32' : [['Are Durians allowed on trains?'], ['Yes', 'No', 'Maybe', 'What are Durians?'], ['']],
+        'M32' : [['Are Durians allowed on trains?'], ['Yes', 'No', 'Maybe', 'What are Durians?'], ['No']],
         'M33' : [['Singapore is part of :'], ['ASEAN', 'China', 'Malaysia', 'Malacca Straits'], ['ASEAN']],
         'M34' : [['What is not true about Pulau Tekong?'], ['You can have fun and leisure activities here.', 'Military training area', 'Recruits Live here', 'Its notorious'], ['You can have fun and leisure activities here.']],
         'M35' : [['Singapore Population Figure?'], ['5.6million', '4 million', '10 million', '6.7 million'], ['5.6million']],
@@ -69,8 +61,36 @@ class Questiondatabase:
         'M40' : [['What is NEWater?'], ['Highly treated reclaimed wastewater', 'Newly created water', 'Salt water', 'Weird water'], ['Highly treated reclaimed wastewater']],
         'M41' : [['Which Film did not feature Singapore?'], ['Hitman: Agent 47', 'Crazy Rich Asians', 'Ah Boys to Man', 'I Kinda Stupid'], ['I Kinda Stupid']],
         'M42' : [['What is the Singapore Sling?'], ['An alcoholic drink', 'A Sling Shot', 'A rifle sling', 'Singapore’s geographical location'], ['An alcoholic drink']],
+        'M43' : [['Which is the happiest country in South East Asia?'], ['Thailand', 'Singapore', 'Malaysia', 'Brunei'], ['Singapore']],
+        'M44' : [['How many countries are there in South East Asia?'], ['11', '10', '9', '8'], ['11']],
+        'M45' : [['How many MRT lines are there in Singapore? (as of 2021)'], ['5', '6', '7', '8'], ['6']],
+        'M46' : [['How long does plastic take to decompose?'], ['120 years', '450 years', '1300 years', 'Never decompose'], ['450 years']],
+        'M47' : [['What is the toughest part of your body?'], ['Skin', 'Nails', 'Tooth enamel', 'Hair'], ['Tooth enamel']],
+        'M48' : [['How many layers does the skin have?'], ['3', '4', '5', '6'], ['3']],
+        'M49' : [['How many animals are at risk of being extinct because of plastic?'], ['Skin', 'Nails', 'Tooth enamel', 'Hair'], ['Tooth enamel']],
+        'M50' : [['What is the largest country in the world?'], ['China', 'USA', 'Russia', 'Australia'], ['Russia']],
+        'M51' : [['When did the Global Financial Crisis start?'], ['2006', '2007', '2008', '2009'], ['2007']],
+        'M52' : [['Who is the richest man in the world?'], ['Jeff Bezos', 'Elon Musk', 'Warren Buffet', 'Joe Biden'], ['Jeff Bezos']],
+        'M53' : [['How many elements are in the periodic table?'], ['119', '118', '116', '120'], ['118']],
+        'M54' : [['What is greenwashing?'], ['a marketing scheme where the product advertised is not actually ''green''', 'companies changing their products to be more ''green', 'Painting things green', ''], ['a marketing scheme where the product advertised is not actually ''green''']],
+        'M55' : [['Where is the fastest muscle in our body?'], ['The knee', 'The fingers', 'The eyes', 'The arm'], ['The eyes']],
+        'M56' : [['What grows from an acorn?'], ['Pine tree', 'Oak tree', 'Just a normal tree?', 'Birch tree'], ['Oak tree']],
+        'M57' : [['What is the smallest country in the world?'], ['Luxemborg', 'Vatican City', 'Singapore', 'Monaco'], ['Vatican City']],
+        'M58' : [['What purpose were Egyptian pyramids made for?'], ['Tombs', 'Palaces', 'Hotels', 'Forts'], ['Tombs']],
+        'M59' : [['Who gave the statue of liberty to US?'], ['No one- USA made it', 'France', 'Canada', 'England'], ['France']],
+        'M60' : [['What is the length around a circle called?'], ['Diameter', 'Radius', 'Area', 'Circumference'], ['Circumference']],
+        'M61' : [['In which European City would you find the Orly Aiport?'], ['Paris', 'London', 'Italy', 'Poland'], ['Paris']],
+        'M62' : [['How many ribs are there in an adult human body?'], ['22', '24', '26', '28'], ['24']],
+        'M63' : [['What is the largest type of deer?'], ['Moose', 'Reindeer', 'White-tailed deer', 'Roe deer'], ['Moose']],
+        'M64' : [['Which bones are babies not born with?'], ['Ankle', 'Knuckle', 'Elbow hinge', 'Knee cap'], ['Knee cap']],
+        'M65' : [['How many hearts does an Octopus have?'], ['1', '2', '3', '4'], ['3']],
+        'M66' : [['Who was the first woman to win a Nobel Prize (1903)?'], ['Marie Curie', 'Bertha Von Suttner', 'Grazia Deledda', 'Jane Addams'], ['Marie Curie']],
+        'M67' : [['Water has a pH level of:'], ['1', '7', '8', '14'], ['7']],
+        'M68' : [['Which blood type is considered the universal donor?'], ['A', 'B', 'AB', 'O'], ['O']],
+        'M69' : [['What does a seismologist study?'], ['Earthquakes', 'Hurricanes', 'Land formations', 'Water movement'], ['Earthquakes']],
+        'M70' : [['Which is the most common bloodtype?'], ['A', 'B', 'AB', 'O'], ['O']],
         }
-        self.randomkey = "M"+str(random.randint(1,40)) #this gives the random starting question
+        self.randomkey = "M"+str(random.randint(1,70)) #this gives the random starting question
     def extractqn(self):
         self.qn = "{}".format(self.set[0][0])
     def returnkeyset(self):
@@ -78,7 +98,7 @@ class Questiondatabase:
         return qns
     ### Extracting MCQ options
     def extractmcq(self):
-        self.randomkey = "M"+str(random.randint(1,40))# this randomly selects the next question
+        self.randomkey = "M"+str(random.randint(1,70))# this randomly selects the next question
         self.key = self.randomkey
         
         ## input data set input key
