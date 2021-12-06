@@ -594,12 +594,12 @@ class Playingboard(SNLFrame):
                 self.canvas.create_line(
                     x01 + 35, y01 - 15, x11 + 10, y11 - 35,  # leftside
                     x11 + 25, y11 - 50, x01 + 50, y01 - 30,  # rightside
-                    x01 + 35, y01 - 15, width=5, fill="green")
+                    x01 + 35, y01 - 15, width=5, fill="dark green")
             else:
                 self.canvas.create_line(
                     x01 + 10, y01 - 30, x11 + 35, y11 - 50,  # leftside
                     x11 + 50, y11 - 35, x01 + 25, y01 - 15,  # rightside
-                    x01 + 10, y01 - 30, width=5, fill="green")
+                    x01 + 10, y01 - 30, width=5, fill="dark green")
 
     def rollinganimation(self):
         """self.variable  = random.randint(1,6)
