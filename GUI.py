@@ -5,6 +5,8 @@ from tkinter.font import names
 from copy import deepcopy
 import time
 import random
+
+
 """
 Below are classes defined for the tinkter pages. Welcome page and end game pages are static.
 Question and Answer pages are dynamic.
@@ -15,7 +17,41 @@ f991cc- Pink
 fee1c7- Beige
 52d1dc- cyan 
 110b11- midnight blue
+698B22 - olivedrab4
+8B5A00 - orange4
  """
+
+
+## data attributes as an object
+## dictionary is structured list - in dict, can define key (M__)
+## everything is class - store attributes and methods
+## using classes inside inside methods
+## sub class is most specific -
+## object is specific
+## functions under the class are like lessons under the class
+## self is so that i dont need to pass everything individually
+## reference attributes to / of myself
+## class > functions = attributes (placeholder)
+## example of a room(class) - functions(aircon, light) - objects
+## call super-class first
+## how to do turn based: When Player 1, True. After you roll the dice, return to False. So its player 2's turn.
+## How to make it go in a swirly swirly, odd/even (last function in the code (math))
+## for i in range(100), self.player(index)
+## classes- question, display board ( 7 diff classes ): its now moving the canvas instead of erasing the class
+## i dont want memory location to be the same
+## deepcopy stores everything differently
+## bulk of code, is mainly questions and widget placement
+## ):
+
+
+## key for dictionary is self defined
+## key for list is 0, 1, 2, 3, ...
+## more information in dictionary 
+## so for this code, i use M1, M2, so i know where is the medium question 1, medium question 2
+# which is better than having to get a key from a list where it is not as defined
+# fundamentally, i want to define the question types
+
+
 class Questiondatabase:
     def __init__(self) -> None:
         self.data_set = {
@@ -67,7 +103,7 @@ class Questiondatabase:
         'M46' : [['How long does plastic take to decompose?'], ['120 years', '450 years', '1300 years', 'Never decompose'], ['450 years']],
         'M47' : [['What is the toughest part of your body?'], ['Skin', 'Nails', 'Tooth enamel', 'Hair'], ['Tooth enamel']],
         'M48' : [['How many layers does the skin have?'], ['3', '4', '5', '6'], ['3']],
-        'M49' : [['How many animals are at risk of being extinct because of plastic?'], ['Skin', 'Nails', 'Tooth enamel', 'Hair'], ['Tooth enamel']],
+        'M49' : [['How many animals are at risk of becoming extinct because of plastic?'], ['700', '267', '400', '102'], ['700']],
         'M50' : [['What is the largest country in the world?'], ['China', 'USA', 'Russia', 'Australia'], ['Russia']],
         'M51' : [['When did the Global Financial Crisis start?'], ['2006', '2007', '2008', '2009'], ['2007']],
         'M52' : [['Who is the richest man in the world?'], ['Jeff Bezos', 'Elon Musk', 'Warren Buffet', 'Joe Biden'], ['Jeff Bezos']],
@@ -114,7 +150,7 @@ class Questiondatabase:
 class Round:
     def __init__(self,rootmaster):
         self.rootmaster = rootmaster
-        self.queryobject = Questiondatabase()
+        self.queryobject = Questiondatabase() ##calling a class from another class (1st class)
         self.userboolean = False # True is for Player 1, False is for Player 2
         self.player1index,self.player2index =1,1 #This indicates player position on the board and is passed into the playing board to display
         #positions
@@ -169,10 +205,9 @@ class Round:
         else:
             return False 
 
-
 class SNLFrame():
     def __init__(self, master,attributes):
-        self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
+        self.master = Frame(master, width=1280 , height=720,background="#8B5A00")
         self.attributes = attributes
     def changeframe(self):
         self.attributes.setnextframe(self.attributes.rootmaster)
@@ -191,7 +226,7 @@ class Introframe(SNLFrame):
         self.label.place(x=200 , y = 200)
 
         self.greet_nextframe = attributes.nextframe
-        self.greet_button = Button(self.master, text="Let's Begin, Hajimasho!",font=("Roboto",24), padx=10 , pady=10 , command=self.greet_button_pressed)
+        self.greet_button = Button(self.master, text="Let's Begin!",font=("Roboto",24), padx=10 , pady=10 , command=self.greet_button_pressed)
         self.greet_button.place(x=500, y=320)
 
         self.close_button = Button(self.master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
@@ -208,7 +243,7 @@ class Endgameframe(SNLFrame):
         self.resetframe = attributes.nextframe
         master.title("Thanks for playing!")
 
-        self.label = Label(self.master, text="Rate us on Playstore 5/5, Hope you enjoyed the game​" , font= ("Corbel" , 24) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
+        self.label = Label(self.master, text="Rate us on Playstore 5/5, Hope you enjoyed the game!​" , font= ("Corbel" , 24) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.label.place(x=250 , y = 200)
 
         self.restart_button = Button(self.master, text="Restart?", command=self.restartthegame , height= 4 , width= 20 , padx= 10 , pady = 10 , font=("roboto" , 24) , background="#f991cc" , foreground="#110b11")
@@ -266,7 +301,6 @@ class QuestionframeMCQ(SNLFrame) :
         super().__init__(master)
         master.title("Question Time!")
         self.questionlabel= questionlabel
-
         #Declaration of all necessary labels
         self.qlabel = Label(self.master, text= self.questionlabel, font= ("Corbel" , 16) , foreground="#110b11", background="#fee1c7" ,padx=10,pady=20)
         self.nextbutton = Button(self.master, text="Continue", command=self.nextpg() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
@@ -275,7 +309,6 @@ class QuestionframeMCQ(SNLFrame) :
         self.qlabel.place(x=200 , y=100)
         self.nextbutton.place(x=1000,y=650)
         self.answerbox.place(x=100,y=300)
-
     def nextpg(self):
         pass"""
 class Answerframe(SNLFrame) :
@@ -283,9 +316,9 @@ class Answerframe(SNLFrame) :
         super().__init__(master,attributes)
         self.attributes = attributes
         if self.attributes.useranscorrect == True:
-            self.displaytext = "Omedetou Gozaimasu"
+            self.displaytext = "Congratulations! You just earned a point!"
         elif self.attributes.useranscorrect == False:
-            self.displaytext = "Awwwwwwww...."
+            self.displaytext = "Aw, Try again!"
         else:
             self.displaytext = "Amazing you managed to find a loophole."
         #declaration
@@ -338,7 +371,7 @@ class Answerframe(SNLFrame) :
     
 class Explanationframe(SNLFrame) :
     def __init__(self,master,attributes) -> None:
-        self.master = Frame(master, width=1280 , height=720,background="#52d1dc")
+        self.master = Frame(master, width=1280 , height=720,background="#E6E6FA")
         super().__init__(master,attributes)
         self.attributes = attributes
         self.explanation= """
@@ -371,7 +404,7 @@ class Playingboard(SNLFrame) :
         self.userboolean = self.attributes.userboolean#This is the player turn indicator
 
         #canvas grid system
-        self.canvas = Canvas(self.master , width=600 , height= 600 , background="#53599a")
+        self.canvas = Canvas(self.master , width=600 , height= 600 , background="#698B22")
         def create_grid(event=None):
             w = self.canvas.winfo_width() # Get current width of canvas
             h = self.canvas.winfo_height() # Get current height of canvas
@@ -385,24 +418,27 @@ class Playingboard(SNLFrame) :
             for i in range(0, h, 60):
                 self.canvas.create_line([(0, i), (w, i)], tag='grid_line',fill='white')
         self.canvas.bind('<Configure>', create_grid)
+        
+        self.canvascreateindexes()
+            
         #player demarcation below
-        self.player1initial =self.canvas.create_rectangle(self.indextoboardlocation(self.attributes.player1index),fill="red")
+        self.player1initial =self.canvas.create_rectangle(self.indextoboardlocation(self.attributes.player1index),fill="white")
         self.x1,self.y1,self.x2,self.y2 =self.indextoboardlocation(self.attributes.player2index)
         print(self.attributes.player1index,self.attributes.player2index)
-        self.player2initial=self.canvas.create_rectangle(self.x1+30,self.y1-30,self.x2+30,self.y2-30,fill="Blue")
+        self.player2initial=self.canvas.create_rectangle(self.x1+30,self.y1-30,self.x2+30,self.y2-30,fill="black")
 
 
 
         #label declarations
         self.labeltitle = Label(self.master , text= " THE SHOWDOWN BOARD " , font=("Corbel" , 36), foreground="#110b11" , padx = 10 ,pady = 10 )
-        self.player1label = Label(self.master , text="Player 1 ",font=("Corbel" ,24),background="#52d1dc")
-        self.player2label = Label(self.master , text= "Player 2",font=("Corbel" ,24),background="#52d1dc")
+        self.player1label = Label(self.master , text="Player 1 ",font=("Corbel" ,24),background="#8B5A00")
+        self.player2label = Label(self.master , text= "Player 2",font=("Corbel" ,24),background="#8B5A00")
         self.dice1 = Label(self.master , text= 0 , background="#fee1c7" , font = ("Roboto" , 36 ),height=2 , width= 4 )
         self.dice2 = Label(self.master , text= 0 , background="#fee1c7",height=2 , width= 4 ,font = ("Roboto" , 36 ))
-        self.player1point=Label(self.master, text="Player 1 Points" , font=("Corbel" ,24),background="#52d1dc")
-        self.player2point=Label(self.master, text="Player 2 Points" , font=("Corbel" ,24),background="#52d1dc")
-        self.player1counter = Label(self.master, text=self.attributes.player1score , font=("Corbel" ,24),background="#52d1dc")
-        self.player2counter = Label(self.master, text=self.attributes.player2score , font=("Corbel" ,24),background="#52d1dc")
+        self.player1point=Label(self.master, text="Player 1 Points" , font=("Corbel" ,24),background="#8B5A00")
+        self.player2point=Label(self.master, text="Player 2 Points" , font=("Corbel" ,24),background="#8B5A00")
+        self.player1counter = Label(self.master, text=self.attributes.player1score , font=("Corbel" ,24),background="#8B5A00")
+        self.player2counter = Label(self.master, text=self.attributes.player2score , font=("Corbel" ,24),background="#8B5A00")
         self.close_button = Button(self.master, text="Quit Game", command=master.quit , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         self.rolldicebutton = Button(self.master, text="Roll Dice", command=lambda :self.rollinganimation() , font=("Roboto" , 24) , background="#fee1c7" , foreground="#110b11")
         #Popup system with waiting here
@@ -536,7 +572,11 @@ class Playingboard(SNLFrame) :
 
     def surprise(self,i1):
          messagebox.showerror("Surprise","You stepped on surprise! Answer this qn correctly or else you will have to fall back to tile {}".format(i1))
-
+   
+    def canvascreateindexes(self): 
+        for x in range(1,101): 
+            coord = self.indextoboardlocation(x) 
+            self.canvas.create_text(coord[0]+28, coord[1]-28, text=str(x), fill="white", font=('Corbel 12 bold'))
 
         
     def indextoboardlocation(self,index):
@@ -554,17 +594,9 @@ class Playingboard(SNLFrame) :
         return x, y, m, n#x,y bottom coords, m,n topright coords
 
 
-
 rootmaster = Tk()
 rootmaster.geometry("1280x720")
-rootmaster.configure(background="#52d1dc")
+rootmaster.configure(background="#8B5A00")
 roundstart = Round(rootmaster) #roundstart is the object for holding all information
 rootmaster.mainloop()
 #Above all tkinter initiation
-
-
-
-
-
-
-
