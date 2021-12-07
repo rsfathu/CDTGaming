@@ -477,13 +477,13 @@ class Explanationframe(SNLFrame):
         self.explanation = """
         You roll a dice. Then you move that many steps​
         \n
+        The questions are history and geography focused.​
+        \n
         If you land upon a square with a question, you must answer it, else you will regress 1 step.​
         \n
         If you land at the bottom of the ladder, you must answer the question to proceed upwards, 
         \n
         if you land on the mouth of a snake, you must answer the question correctly to not proceed downwards.​
-        \n
-        The questions get increasingly tougher.​
         \n
         First to reach square 100 wins.
         \n
@@ -694,10 +694,10 @@ class Playingboard(SNLFrame):
             else:
                 pass
         if self.attributes.userboolean == True:
-            messagebox.showerror("Next Player", "Player 2, Now it's your turn")
+            messagebox.showerror("Next Player", "Player 1, Now it's your turn")
             self.attributes.userboolean = False
         else:
-            messagebox.showerror("Next Player", "Player 1, Now it's your turn")
+            messagebox.showerror("Next Player", "Player 2, Now it's your turn")
             self.attributes.userboolean = True
         return False
 
