@@ -192,10 +192,7 @@ class Questiondatabase:
         }
 
 
-        self.randomkey = "M" + str(random.randint(1, 70))  # this gives the random starting question
-
-    def extractqn(self):
-        self.qn = "{}".format(self.set[0][0])
+        self.randomkey = "M" + str(random.randint(1, 100))  # this gives the random starting question
 
     def returnkeyset(self):
         qns = self.data_set[self.key]
@@ -203,7 +200,7 @@ class Questiondatabase:
 
     ### Extracting MCQ options
     def extractmcq(self):
-        self.randomkey = "M" + str(random.randint(1, 70))  # this randomly selects the next question
+        self.randomkey = "M" + str(random.randint(1, 100))  # this randomly selects the next question
         self.key = self.randomkey
 
         ## input data set input key
