@@ -631,11 +631,11 @@ class Playingboard(SNLFrame):
         self.attributes.checkendgame()  # incase someone wins immediate
         if self.attributes.endgameboolean == True:  # str8 forward to end game screen
             if self.attributes.userboolean == True:
-                messagebox.showerror("CONGRATS", "Player 1 Won!")
-                print("Player 1 Won")
-            elif self.attributes.userboolean == False:
                 messagebox.showerror("CONGRATS", "Player 2 Won!")
                 print("Player 2 Won")
+            elif self.attributes.userboolean == False:
+                messagebox.showerror("CONGRATS", "Player 1 Won!")
+                print("Player 1 Won")
             self.attributes.count = 7
             self.changeframe()
             return
